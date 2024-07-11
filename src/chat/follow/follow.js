@@ -20,12 +20,19 @@ module.exports = (bot) => {
             }
 
             try {
-                const chatReponse = await gpt.askChatGPT(message);
-
-                if (chatReponse.includes("suivre") || chatReponse.includes("suis")) {
-                    const p = target.position;
-                    bot.pathfinder.setMovements(defaultMove);
-                    bot.pathfinder.setGoal(new GoalNear(p.x, p.y, p.z, 1));
+                let chatReponse = await gpt.askChatGPT(message);
+                const p = target.position;
+                switch (true) {
+                    case chatReponse.includes('suivre'):
+                    case chatReponse.includes('suis'):
+                        bot.pathfinder.setMovements(defaultMove);
+                        bot.pathfinder.setGoal(new GoalNear(p.x, p.y, p.z, 1));
+                        break;
+                    case chatReponse.includes('stop'):
+                        bot.pathfinder.setGoal(null);
+                        break;
+                    default:
+                        break;
                 }
             } catch (error) {
                 console.error(error);

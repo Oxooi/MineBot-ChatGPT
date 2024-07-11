@@ -1,31 +1,5 @@
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function checkInv(bot, height, material) {
-
-    // Get the item on the inventory of the bot
-    let item = bot.inventory.items().find(item => item.name === material);
-
-    // If the bot haven't the item
-    if (!item) {
-        // Give the item
-        bot.chat(`/give ${bot.username} minecraft:${material} ${height}`);
-
-        // Wait 1 second for inventory update
-        await sleep(1000);
-
-        // Update the item var
-        item = bot.inventory.items().find(item => item.name === material);
-
-        // Wait 1 seconde
-        // await sleep(1000);
-
-        // Equip the item in hand
-        await bot.equip(item, 'hand');
-    }
-
-}
+const inv = require('./checkInv');
+const timer = require('../../../utils/timer/sleep');
 
 async function buildTower(bot, height, material) {
 
@@ -57,7 +31,7 @@ async function buildTower(bot, height, material) {
 
     for (let i = 0; i < height; i++) {
         // Check if the bot have the items
-        await checkInv(bot, height, blockMeta.name);
+        await inv.checkInv(bot, height, blockMeta.name);
 
         // Start Jump
         bot.setControlState("jump", true);
@@ -76,7 +50,7 @@ async function buildTower(bot, height, material) {
         // Stop jump
         bot.setControlState("jump", false);
 
-        await sleep(400); // Wait 0.5 seconde
+        await timer.sleep(400); // Wait 0.5 seconde
     }
 
 }
