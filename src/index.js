@@ -7,12 +7,11 @@ const { pathfinder } = require('mineflayer-pathfinder');
 
 // Bot configuration
 const bot = mineflayer.createBot({
-    host: 'localhost',
-    port: 25565,
-    version: "1.18",
-    username: 'MineBot'
+  host: 'localhost',
+  port: 25565,
+  version: false,
+  username: 'MineBot'
 });
-bot.loadPlugin(pathfinder);
 
 //////
 // DEPENDENCIES
@@ -34,10 +33,10 @@ build(bot);
 
 // Log the bot
 bot.on('login', () => {
-    console.log(`🟢 ${bot.username} Joined the server !`);
+  console.log(`🟢 ${bot.username} Joined the server !`);
 });
 
 // Error Handling
 bot.on('error', (err) => {
-    console.error('Une erreur est survenue:', err);
+  console.error('Une erreur est survenue:', err);
 });
